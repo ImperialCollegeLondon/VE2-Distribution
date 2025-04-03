@@ -70,12 +70,12 @@ public class FrameworkInstaller : EditorWindow
     //     return CoreModulesInstalled;
     // }
 
-    [MenuItem("VE2 Framework/Remove Core Modules")]
-    private static void RemoveCoreModulesMenuItem()
-    {
-        FrameworkInstaller window = GetWindow<FrameworkInstaller>("VE2 Framework Installer");
-        window.StartRemoval();
-    }
+    // [MenuItem("VE2 Framework/Remove Core Modules")]
+    // private static void RemoveCoreModulesMenuItem()
+    // {
+    //     FrameworkInstaller window = GetWindow<FrameworkInstaller>("VE2 Framework Installer");
+    //     window.StartRemoval();
+    // }
 
     // --- EditorWindow Lifecycle ---
     void OnEnable()
