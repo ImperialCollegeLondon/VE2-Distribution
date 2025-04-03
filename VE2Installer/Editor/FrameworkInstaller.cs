@@ -55,7 +55,7 @@ public class FrameworkInstaller : EditorWindow
 
     // --- Menu Items ---
 
-    [MenuItem("VE2/Install VE2")]
+    [MenuItem("VE2/Install VE2", priority = 100)]
     public static void ShowInstallerWindow()
     {
         FrameworkInstaller window = GetWindow<FrameworkInstaller>("VE2 Framework Installer");

@@ -8,7 +8,8 @@
     "com.browar.editor-toolbox": "0.14.0",
     "com.github-glitchenzo.nugetforunity": "4.3.0",
     "net.tnrd.nsubstitute": "5.1.0",
-    "com.unity.xr.management": "4.5.0"
+    "com.unity.xr.management": "4.5.0",
+    "com.unity.xr.meta-openxr": "2.0.1"
   },
   "repository": {
     "type": "git",
