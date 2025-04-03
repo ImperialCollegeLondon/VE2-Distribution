@@ -5,18 +5,18 @@
   "description": "All you need to create a VE2 world and export to the VE2 platform",
   "unity": "6.0.0",
   "dependencies": {
-    "com.browar.editor-toolbox":"0.14.0",
-    "com.github-glitchenzo.nugetforunity":"4.3.0",
-    "net.tnrd.nsubstitute":"5.1.0",
-    "com.unity.xr.management":"4.5.0"
+    "com.browar.editor-toolbox": "0.14.0",
+    "com.github-glitchenzo.nugetforunity": "4.3.0",
+    "net.tnrd.nsubstitute": "5.1.0",
+    "com.unity.xr.management": "4.5.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ImperialCollegeLondon/VE2-Distribution/com.ic.ve2.git"
+    "url": "https://github.com/ImperialCollegeLondon/VE2-Distribution.git#main?path=VE2"
   },
-  "documentationUrl": "https://github.com/ImperialCollegeLondon/VE2-Distribution/blob/main/README.md",
-  "changelogUrl": "https://github.com/ImperialCollegeLondon/VE2-Distribution/blob/main/CHANGELOG.md",
-  "licensesUrl": "https://github.com/ImperialCollegeLondon/VE2-Distribution/blob/main/LICENSE.md",
+  "documentationUrl": "https://github.com/ImperialCollegeLondon/VE2-Distribution/blob/main/VE2/README.md",
+  "changelogUrl": "https://github.com/ImperialCollegeLondon/VE2-Distribution/blob/main/VE2/CHANGELOG.md",
+  "licensesUrl": "https://github.com/ImperialCollegeLondon/VE2-Distribution/blob/main/VE2/LICENSE.md",
   "type": "tool",
   "keywords": [
     "VE2",
