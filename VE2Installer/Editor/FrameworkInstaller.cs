@@ -39,12 +39,12 @@ public class FrameworkInstaller : EditorWindow
 
     // Known core module repository names in installation order.
     // To remove in reverse order, we will iterate over this array backwards.
-    private static readonly string[] coreModuleRepoNames = new string[]
+    private static readonly string[] _repoNames = new string[]
     {
         "Unity-Editor-Toolbox",
         "Unity3D-NSubstitute",
         "NuGetForUnity",
-        "com.ic.ve2"
+        "VE2-Distribution"
     };
 
     // Cached list of installed packages.
@@ -53,7 +53,7 @@ public class FrameworkInstaller : EditorWindow
 
     // --- Menu Items ---
 
-    [MenuItem("VE2 Framework/Install Core Modules")]
+    [MenuItem("VE2 Framework/Install VE2")]
     public static void ShowInstallerWindow()
     {
         FrameworkInstaller window = GetWindow<FrameworkInstaller>("VE2 Framework Installer");
@@ -62,11 +62,11 @@ public class FrameworkInstaller : EditorWindow
     }
 
     // The removal menu item is only enabled after core modules are installed.
-    [MenuItem("VE2 Framework/Remove Core Modules", true)]
-    private static bool ValidateRemoveCoreModules()
-    {
-        return CoreModulesInstalled;
-    }
+    // [MenuItem("VE2 Framework/Remove Core Modules", true)]
+    // private static bool ValidateRemoveCoreModules()
+    // {
+    //     return CoreModulesInstalled;
+    // }
 
     [MenuItem("VE2 Framework/Remove Core Modules")]
     private static void RemoveCoreModulesMenuItem()
@@ -100,7 +100,7 @@ public class FrameworkInstaller : EditorWindow
         packageQueue.Enqueue("https://github.com/arimger/Unity-Editor-Toolbox.git#upm");
         packageQueue.Enqueue("https://github.com/Thundernerd/Unity3D-NSubstitute.git");
         packageQueue.Enqueue("https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity");
-        packageQueue.Enqueue("https://github.com/ImperialCollegeLondon/VE2-Distribution/com.ic.ve2.git");
+        packageQueue.Enqueue("https://github.com/ImperialCollegeLondon/VE2-Distribution.git?path=VE2#main");
 
         totalPackages = packageQueue.Count;
         // Fetch the list of already installed packages.
@@ -274,9 +274,9 @@ public class FrameworkInstaller : EditorWindow
         totalRemovals = 0;
         removalStatus = "Starting removal...";
 
-        for (int i = coreModuleRepoNames.Length - 1; i >= 0; i--)
+        for (int i = _repoNames.Length - 1; i >= 0; i--)
         {
-            string repoName = coreModuleRepoNames[i];
+            string repoName = _repoNames[i];
             foreach (var pkg in installedPackages)
             {
                 if ((pkg.packageId != null && pkg.packageId.IndexOf(repoName, System.StringComparison.OrdinalIgnoreCase) >= 0) ||
