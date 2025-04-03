@@ -100,7 +100,7 @@ public class FrameworkInstaller : EditorWindow
         packageQueue.Enqueue("https://github.com/arimger/Unity-Editor-Toolbox.git#upm");
         packageQueue.Enqueue("https://github.com/Thundernerd/Unity3D-NSubstitute.git");
         packageQueue.Enqueue("https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity");
-        packageQueue.Enqueue("https://github.com/Oluwatosin-Ogunyebi/com.ic.ve2.git");
+        packageQueue.Enqueue("https://github.com/ImperialCollegeLondon/VE2-Distribution/com.ic.ve2.git");
 
         totalPackages = packageQueue.Count;
         // Fetch the list of already installed packages.

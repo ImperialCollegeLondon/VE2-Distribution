@@ -1,0 +1,26 @@
+{
+  "name": "com.ic.ve2.installer",
+  "version": "0.0.1",
+  "displayName": "VE2-Installer",
+  "description": "Instals VE2 and all its dependencies",
+  "unity": "6.0.0",
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ImperialCollegeLondon/VE2-Distribution/com.ic.ve2.git"
+  },
+  "documentationUrl": "https://github.com/ImperialCollegeLondon/VE2-Distribution/blob/main/README.md",
+  "changelogUrl": "https://github.com/ImperialCollegeLondon/VE2-Distribution/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/ImperialCollegeLondon/VE2-Distribution/blob/main/LICENSE.md",
+  "type": "tool",
+  "keywords": [
+    "VE2",
+    "VR",
+    "Education"
+  ],
+  "author": {
+    "name": "IC",
+    "email": "f.tovey-ansell@imperial.ac.uk",
+    "url": "https://www.imperial.ac.uk/virse/"
+  }
+}
