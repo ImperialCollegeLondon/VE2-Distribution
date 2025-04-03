@@ -34,7 +34,7 @@
     {
         "displayName": "Sample Scene",
         "description": "Contains a sample scene with examplar VE2 components",
-        "path": "FRAMEWORK/CoreSamples~"
+        "path": "FRAMEWORK/Core/Samples~"
     }
 ]
 }
