@@ -49,6 +49,9 @@ The VE2 tools, the installer, and this setup guide are all in Alpha, and are a w
 
 ## Known Issues
 
+- **Graphics:**
+  URP settings don't seem to carry across correctly when installing VE2, so the rendering and lighting may be a little jank
+
 - **Grabbables:**  
    If you join a session where a grabbable object has already been grabbed and dropped, and then pick it up and drop it again, the grab/drop action is overridden.
 
@@ -65,6 +68,9 @@ The VE2 tools, the installer, and this setup guide are all in Alpha, and are a w
 - **Installation Warnings:**  
    All kinds of errors may pop up here. You may see warnings like:  
    `"Asset Packages/com.ic.ve2installer/package.json has no meta file, but it's in an immutable folder. The asset will be ignored."`
+
+- **Local Server:**
+   Expect to see some warnings about the DarkRift server logs not being as expected, differing number of bytes etc
 
 - **DoTween Modules:**  
    Errors related to DoTween modules may appear, but the functionality is unaffected.
