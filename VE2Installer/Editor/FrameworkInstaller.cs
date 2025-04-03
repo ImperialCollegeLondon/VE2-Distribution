@@ -6,6 +6,8 @@ using System.Collections.Generic;
 
 // Alias to resolve ambiguity between UnityEditor.PackageManager.PackageInfo and UnityEditor.PackageInfo
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
+using System;
+using System.Linq;
 
 public class FrameworkInstaller : EditorWindow
 {
@@ -53,7 +55,7 @@ public class FrameworkInstaller : EditorWindow
 
     // --- Menu Items ---
 
-    [MenuItem("VE2 Framework/Install VE2")]
+    [MenuItem("VE2/Install VE2")]
     public static void ShowInstallerWindow()
     {
         FrameworkInstaller window = GetWindow<FrameworkInstaller>("VE2 Framework Installer");
@@ -123,64 +125,18 @@ public class FrameworkInstaller : EditorWindow
             listRequest = null;
             EditorApplication.update -= UpdateInstalledPackages;
         }
+
+        // Debug.Log($"Checked installed packages...");
+        // foreach (var pkg in installedPackages)
+        // {
+        //     Debug.Log($"Already Installed Package: {pkg.packageId}");
+        // }
     }
 
     void InstallNextPackage()
     {
         if (installedPackages == null)
             return;
-
-        //// If a package add request is active, check for timeout.
-        //if (currentRequest != null && !currentRequest.IsCompleted)
-        //{
-        //    if (Time.realtimeSinceStartup - currentRequestStartTime > REQUEST_TIMEOUT)
-        //    {
-        //        // Check if package is installed even though the request didn't complete.
-        //        if (IsPackageInstalled(currentInstalling))
-        //        {
-        //            installStatus = "Installed (detected after timeout): " + currentInstalling;
-        //            Debug.Log($"Detected that {currentInstalling} is installed.");
-        //            installedCount++;
-        //            currentRequest = null;
-        //            EditorApplication.delayCall += InstallNextPackage;
-        //            return;
-        //        }
-        //        else
-        //        {
-        //            string errorMsg = $"Installation failed: {currentInstalling} timed out after {REQUEST_TIMEOUT} seconds.";
-        //            AbortInstallation(errorMsg);
-        //            return;
-        //        }
-        //    }
-        //    downloadStatus = "Downloading: " + currentInstalling;
-        //    return;
-        //}
-
-        //// Process a completed add request.
-        //if (currentRequest != null && currentRequest.IsCompleted)
-        //{
-        //    if (currentRequest.Status == StatusCode.Success)
-        //    {
-        //        if (currentRequest.Result == null)
-        //        {
-        //            AbortInstallation($"Installation failed: {currentInstalling} returned a null result.");
-        //            return;
-        //        }
-        //        installStatus = "Installed: " + currentRequest.Result.packageId;
-        //        Debug.Log($"\u2705 Installed: {currentRequest.Result.packageId}");
-        //        installedPackages.Add(currentRequest.Result);
-        //    }
-        //    else
-        //    {
-        //        string errorMsg = $"Installation failed: {currentInstalling} failed to install. Error: " +
-        //            (currentRequest.Error != null ? currentRequest.Error.message : "Unknown error.");
-        //        AbortInstallation(errorMsg);
-        //        return;
-        //    }
-        //    downloadStatus = "";
-        //    installedCount++;
-        //    currentRequest = null;
-        //}
 
         // Queue next package if available.
         if (packageQueue.Count > 0)
@@ -194,6 +150,7 @@ public class FrameworkInstaller : EditorWindow
                 installedCount++;
                 return; // Let the update loop call InstallNextPackage next frame.
             }
+            Debug.Log($"Installing: {nextPackage}");
             currentInstalling = packageQueue.Dequeue();
             downloadStatus = "Downloading: " + currentInstalling;
             currentRequest = Client.Add(currentInstalling);
@@ -229,19 +186,58 @@ public class FrameworkInstaller : EditorWindow
 
     bool IsPackageInstalled(string packageUrl)
     {
-        string repoName = ExtractRepositoryName(packageUrl);
-        if (string.IsNullOrEmpty(repoName))
+        // Assuming packageUrl contains the package name or can be used to extract it
+        string packageName = ExtractPackageNameAndPath(packageUrl); // This would extract the unique packageName from packageUrl
+
+        if (string.IsNullOrEmpty(packageName))
             return false;
+
         foreach (var pkg in installedPackages)
         {
-            if ((pkg.packageId != null && pkg.packageId.IndexOf(repoName, System.StringComparison.OrdinalIgnoreCase) >= 0) ||
-                (pkg.name != null && pkg.name.IndexOf(repoName, System.StringComparison.OrdinalIgnoreCase) >= 0))
+            if (pkg.name != null && pkg.name.Equals(packageName, System.StringComparison.OrdinalIgnoreCase))
             {
-                return true;
+                return true; // Package with the same name is already installed
             }
         }
-        return false;
+        return false; // No matching package name found
     }
+
+    string ExtractPackageNameAndPath(string packageUrl)
+    {
+        // Extract the base URL (repo URL without query and fragment)
+        Uri uri;
+        try
+        {
+            uri = new Uri(packageUrl.Split('?')[0]); // Remove query parameters if present
+        }
+        catch (UriFormatException)
+        {
+            return string.Empty;
+        }
+
+        // Extract the last part of the URL path (i.e., the repo name, e.g., Unity-Editor-Toolbox)
+        string repoName = uri.AbsolutePath.Split('/').LastOrDefault()?.Replace(".git", "");
+        
+        // Check if there's a "path" parameter in the URL (after '?')
+        string path = string.Empty;
+        var queryParams = Uri.UnescapeDataString(packageUrl.Split('?').Skip(1).FirstOrDefault() ?? "");
+        if (queryParams.Contains("path="))
+        {
+            path = queryParams.Split('&')
+                            .FirstOrDefault(p => p.StartsWith("path="))?
+                            .Substring(5); // Remove "path=" prefix
+        }
+        
+        // If path is empty or just the root, return "root"
+        if (string.IsNullOrEmpty(path))
+        {
+            path = "root";
+        }
+
+        return $"{repoName} (path: {path})";  // Example: "Unity-Editor-Toolbox (path: root)"
+    }
+
+
 
     string ExtractRepositoryName(string packageUrl)
     {

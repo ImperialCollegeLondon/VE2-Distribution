@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "displayName": "VE2-Installer",
   "description": "Installs VE2 and all its dependencies",
-  "unity": "2019.4",
+  "unity": "2023.3",
   "dependencies": {},
   "repository": {
     "type": "git",
