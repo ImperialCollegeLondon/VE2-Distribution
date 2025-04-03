@@ -18,25 +18,31 @@ The VE2 tools, the installer, and this setup guide are all in Alpha, and are a w
    - Paste the following URL:  
      `git+https://github.com/ImperialCollegeLondon/VE2-Distribution.git?path=VE2Installer#main`
 
-3. **Install VE2**  
-   - In Unity's top menu bar, navigate to **VE2 > Install VE2**.
+3. **Authenticate with Git**  
+   - If Git Credential Manager isn't set up on your machine, it should show a popup asking you to log in. Log in with the account used to access the repo (this page!)
 
-4. **Configure XR Settings**  
+4. **Install VE2**  
+   - After the package manager has installed the VE2 installer, look in Unity's top menu bar, and navigate to **VE2 > Install VE2**.
+
+5. **Install Samples**
+   - Optional: Go to the package manager, find VE2, and install samples - this will give you the VE2 sample scene. You can also use this window to update the VE2 package. 
+
+6. **Configure XR Settings**  
    - Open **Unity’s Project Settings**.
    - Go to **XR Plug-In Management** and ensure **OpenXR** is enabled.
 
-5. **Set Up XR Plugin**  
+7. **Set Up XR Plugin**  
    - Navigate to **XR Plug-In Management > OpenXR**.
    - Under **Enabled Interaction Profiles**, add **Oculus Touch Interaction Profile**.
 
-6. **Set Up Your Scene**  
+8. **Set Up Your Scene**  
    - Create a new scene in Unity.
    - Go to **VE2 > Setup Scene**.
 
-7. **Start Local Server**  
+9. **Start Local Server**  
    - In the top-right corner, click on **VE2: Start Local Server**.
 
-8. **Play the Scene**  
+10. **Play the Scene**  
    - Enter **Play Mode** and begin interacting with VE2!
 
 ---
@@ -57,7 +63,7 @@ The VE2 tools, the installer, and this setup guide are all in Alpha, and are a w
 ## Console Warnings You Can Ignore
 
 - **Installation Warnings:**  
-   You may see warnings like:  
+   All kinds of errors may pop up here. You may see warnings like:  
    `"Asset Packages/com.ic.ve2installer/package.json has no meta file, but it's in an immutable folder. The asset will be ignored."`
 
 - **DoTween Modules:**  
