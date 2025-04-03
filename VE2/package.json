@@ -28,5 +28,13 @@
     "name": "IC",
     "email": "f.tovey-ansell@imperial.ac.uk",
     "url": "https://www.imperial.ac.uk/virse/"
-  }
+  },
+
+  "samples": [
+    {
+        "displayName": "Sample Scene",
+        "description": "Contains a sample scene with examplar VE2 components",
+        "path": "FRAMEWORK/CoreSamples~"
+    }
+]
 }
