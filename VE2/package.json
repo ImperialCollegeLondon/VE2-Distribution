@@ -1,9 +1,9 @@
 {
   "name": "com.ic.ve2",
-  "version": "1.0.18",
+  "version": "0.0.1",
   "displayName": "VE2",
   "description": "All you need to create a VE2 world and export to the VE2 platform",
-  "unity": "6.0.0",
+  "unity": "2023.3",
   "dependencies": {
     "com.browar.editor-toolbox": "0.14.0",
     "com.github-glitchenzo.nugetforunity": "4.3.0",
