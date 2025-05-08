@@ -1,6 +1,6 @@
 {
   "name": "com.ic.ve2",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "displayName": "VE2",
   "description": "All you need to create a VE2 world and export to the VE2 platform",
   "unity": "2023.3",
@@ -34,7 +34,7 @@
     {
         "displayName": "Sample Scene",
         "description": "Contains a sample scene with examplar VE2 components",
-        "path": "FRAMEWORK/Core/Samples~"
+        "path": "FRAMEWORK/Common/Samples~"
     }
 ]
 }
