@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using static VE2.Common.Shared.CommonSerializables;
 
-
 #if UNITY_EDITOR
 using UnityEngine;
 #endif

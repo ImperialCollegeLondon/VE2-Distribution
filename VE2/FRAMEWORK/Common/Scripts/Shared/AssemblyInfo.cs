@@ -12,6 +12,7 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("VE2.Core.UI.Internal")] 
 [assembly: InternalsVisibleTo("VE2.NonCore.Instancing.Internal")] 
 [assembly: InternalsVisibleTo("VE2.NonCore.Instancing.API")] 
+[assembly: InternalsVisibleTo("VE2.NonCore.Instancing.VComponents.Tests")]  
 [assembly: InternalsVisibleTo("VE2.NonCore.Platform.Internal")] 
 [assembly: InternalsVisibleTo("VE2.NonCore.Platform.API")] 
 [assembly: InternalsVisibleTo("VE2.NonCore.FileSystem.Internal")] 

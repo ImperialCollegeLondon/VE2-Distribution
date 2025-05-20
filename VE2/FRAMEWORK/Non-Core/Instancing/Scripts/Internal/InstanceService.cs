@@ -47,33 +47,30 @@ namespace VE2.NonCore.Instancing.Internal
         public void ConnectToInstance() => ConnectToServer();
         public void DisconnectFromInstance() => DisconnectFromServer();
 
+        public ushort LocalClientID => _instanceInfoContainer.LocalClientID;
+        public bool IsClientIDReady => LocalClientID != ushort.MaxValue;
+        public event Action<ushort> OnClientIDReady;
+
         public bool IsHost => _instanceInfoContainer.IsHost;
         public event Action OnBecomeHost {add => _instanceInfoContainer.OnBecomeHost += value; remove => _instanceInfoContainer.OnBecomeHost -= value;}
         public event Action OnLoseHost {add => _instanceInfoContainer.OnLoseHost += value; remove => _instanceInfoContainer.OnLoseHost -= value;}
         public ushort HostID => _instanceInfoContainer.HostID;
 
+        public int NumberOfClientsInCurrentInstance => _instanceInfoContainer.InstanceInfo.ClientInfos.Count;
+
+        public float Ping => _pingSyncer.Ping;
+        public int SmoothPing => _pingSyncer.SmoothPing;
         public event Action<int> OnPingUpdate { add => _pingSyncer.OnPingUpdate += value; remove => _pingSyncer.OnPingUpdate -= value; }
         #endregion
 
-
         #region Internal interfaces
-        public event Action<ushort> OnClientIDReady;
-        //internal IWorldStateSyncService WorldStateSyncService => _worldStateSyncer;
+        public void SendInstantMessage(string id, object message) => _instantMessageRouter.SendInstantMessage(id, message);
+        public void RegisterInstantMessageHandler(string id, IInstantMessageHandlerInternal instantMessageHandler) => _instantMessageRouter.RegisterInstantMessageHandler(id, instantMessageHandler);
+        public void DeregisterInstantMessageHandler(string id) => _instantMessageRouter.DeregisterInstantMessageHandler(id);
         #endregion
-
-
-        #region Shared interfaces
-        public ushort LocalClientID => _instanceInfoContainer.LocalClientID;
-        public bool IsClientIDReady => LocalClientID != ushort.MaxValue;
-        #endregion
-
 
         #region Temp debug interfaces //TODO: remove once UI is in 
         public InstancedInstanceInfo InstanceInfo => _instanceInfoContainer.InstanceInfo;
-
-        public float Ping => _pingSyncer.Ping;
-
-        public int SmoothPing => _pingSyncer.SmoothPing;
 
         public event Action<InstancedInstanceInfo> OnInstanceInfoChanged { 
             add => _instanceInfoContainer.OnInstanceInfoChanged += value; 
@@ -99,6 +96,7 @@ namespace VE2.NonCore.Instancing.Internal
         internal readonly LocalPlayerSyncer _localPlayerSyncer;
         internal readonly RemotePlayerSyncer _remotePlayerSyncer;
         internal PingSyncer _pingSyncer;
+        internal InstantMessageRouter _instantMessageRouter;
 
         public InstanceService(IPluginSyncCommsHandler commsHandler, ILocalClientIDWrapperWritable localClientIDWrapper, ConnectionStateWrapper connectionStateDebugWrapper,
             HandInteractorContainer interactorContainer, IPlayerServiceInternal playerServiceInternal, IPrimaryUIServiceInternal primaryUIService,
@@ -126,6 +124,7 @@ namespace VE2.NonCore.Instancing.Internal
             _localPlayerSyncer = new(_commsHandler, _instanceInfoContainer, localPlayerSyncableContainer); //only transmits
             _remotePlayerSyncer = new(_commsHandler, _instanceInfoContainer, _interactorContainer, _playerService); //only receives
             _pingSyncer = new(_commsHandler, _instanceInfoContainer); //receives and transmits
+            _instantMessageRouter = new(_commsHandler);
 
             _primaryUIService?.SetInstanceCodeText(_instanceCode);
 
