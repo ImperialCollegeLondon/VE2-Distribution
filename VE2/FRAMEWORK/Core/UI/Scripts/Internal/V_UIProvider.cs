@@ -1,10 +1,19 @@
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem.UI;
 using VE2.Common.API;
 using VE2.Core.UI.API;
 
 namespace VE2.Core.UI.Internal
 {
+    [Serializable]
+    internal class MenuUIConfig
+    {
+        [SerializeField] internal UnityEvent OnActivateMainMenu = new UnityEvent();
+        [SerializeField] internal UnityEvent OnDeactivateMainMenu = new UnityEvent();
+    }
+
     [ExecuteAlways]
     public class V_UIProvider : MonoBehaviour, IUIProvider
     {
@@ -28,11 +37,13 @@ namespace VE2.Core.UI.Internal
                 return _secondaryUIService;
             }
         }
-        public bool IsEnabled => gameObject != null && enabled && gameObject.activeInHierarchy;
+        public bool IsEnabled => this != null && gameObject != null && enabled && gameObject.activeInHierarchy;
 
         [Help("If enabled, the secondary UI can be customised. If disabled, the secondary UI  This is always enabled for the primary UI.")]
         [SerializeField, HideInInspector] private bool _lastUseSecondaryUI;
         [SerializeField] private bool _useCustomSecondaryUI = true;
+
+        [SerializeField] private MenuUIConfig _menuUIConfig = new MenuUIConfig();
 
         private PrimaryUIService _primaryUIService;
         private SecondaryUIService _secondaryUIService;
@@ -40,6 +51,7 @@ namespace VE2.Core.UI.Internal
         private GameObject _pluginPrimaryUIHolder => FindFirstObjectByType<PluginPrimaryHolderUITag>(FindObjectsInactive.Include)?.gameObject;
         private GameObject _pluginSecondaryUIHolder => FindFirstObjectByType<PluginSecondaryUIHolderTag>(FindObjectsInactive.Include)?.gameObject;
         private string _primaryUIPluginTabName => "World Info";
+
 
         private void OnValidate()
         {
@@ -76,7 +88,7 @@ namespace VE2.Core.UI.Internal
                 if (inputSystemUIInputModule == null)
                     inputSystemUIInputModule = new GameObject("InputSystemUIInputModule").AddComponent<InputSystemUIInputModule>();
 
-                _primaryUIService = new PrimaryUIService(VE2API.InputHandler.TogglePrimaryUI, inputSystemUIInputModule);
+                _primaryUIService = new PrimaryUIService(VE2API.InputHandler.TogglePrimaryUI, inputSystemUIInputModule, _menuUIConfig);
 
                 //Move plugin primary UI to primary UI==========
                 GameObject pluginPrimaryUI = _pluginPrimaryUIHolder.transform.GetChild(0).gameObject;
