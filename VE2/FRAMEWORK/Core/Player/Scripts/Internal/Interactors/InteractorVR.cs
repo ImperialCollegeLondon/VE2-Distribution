@@ -53,7 +53,7 @@ namespace VE2.Core.Player.Internal
             if (_LocalClientIDWrapper.IsClientIDReady && !collideInteractionModule.AdminOnly && collideInteractionModule.CollideInteractionType == CollideInteractionType.Hand)
             {
                 collideInteractionModule.InvokeOnCollideEnter(_InteractorID);
-                HeldActivatableIDs.Add(collideInteractionModule.ID);
+                _heldActivatableIDsAgainstNetworkFlags.Add(collideInteractionModule.ID, collideInteractionModule.IsNetworked);
             }
         }
 
@@ -62,16 +62,13 @@ namespace VE2.Core.Player.Internal
             if (_LocalClientIDWrapper.IsClientIDReady && !collideInteractionModule.AdminOnly && collideInteractionModule.CollideInteractionType == CollideInteractionType.Hand)
             {
                 collideInteractionModule.InvokeOnCollideExit(_InteractorID);
-                HeldActivatableIDs.Remove(collideInteractionModule.ID);
+                _heldActivatableIDsAgainstNetworkFlags.Remove(collideInteractionModule.ID);
             }
         }
 
-        protected override void HandleRaycastDistance(float distance, bool isOnPalm = false, Vector3 point = default)
+        protected override void HandleRaycastDistance(Vector3 point)
         {
-            if(!isOnPalm)
-                _lineRenderer.SetPosition(1, new Vector3(0, 0, distance / _lineRenderer.transform.lossyScale.z));
-            else
-                _lineRenderer.SetPosition(1, _RayOrigin.InverseTransformPoint(point));
+            _lineRenderer.SetPosition(1, _RayOrigin.InverseTransformPoint(point));
         }
 
         protected override void SetInteractorState(InteractorState newState)
@@ -122,6 +119,5 @@ namespace VE2.Core.Player.Internal
             _GrabberTransform.localPosition = Vector3.zero;
             _GrabberTransform.localRotation = Quaternion.identity;
         }
-
     }
 }
