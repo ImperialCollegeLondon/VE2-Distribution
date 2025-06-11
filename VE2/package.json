@@ -1,11 +1,11 @@
 {
   "name": "com.ic.ve2",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "displayName": "VE2",
   "description": "All you need to create a VE2 world and export to the VE2 platform",
   "unity": "2023.3",
   "dependencies": {
-    "com.browar.editor-toolbox": "0.14.0",
+    "com.browar.editor-toolbox": "0.14.1",
     "com.github-glitchenzo.nugetforunity": "4.3.0",
     "net.tnrd.nsubstitute": "5.1.0",
     "com.unity.xr.management": "4.5.0",
@@ -25,7 +25,7 @@
     "Education"
   ],
   "author": {
-    "name": "IC",
+    "name": "Imperial College London",
     "email": "f.tovey-ansell@imperial.ac.uk",
     "url": "https://www.imperial.ac.uk/virse/"
   },

@@ -6,7 +6,10 @@ namespace VE2.NonCore.Platform.API
 {
     internal interface IPlatformServiceInternal : IPlatformService //TODO: Do we even need plugin-facing APIs here?
     {
-        public void UpdateSettings(ServerConnectionSettings serverConnectionSettings, string instanceCode);
+        public void UpdateSettings(ServerConnectionSettings serverConnectionSettings, InstanceCode instanceCode);
+        public InstanceCode CurrentInstanceCode { get; }
+        public Dictionary<InstanceCode, PlatformInstanceInfo> InstanceInfos { get; }
+        public event Action<Dictionary<InstanceCode, PlatformInstanceInfo>> OnInstanceInfosChanged;
 
         public void ConnectToPlatform();
 
@@ -22,7 +25,7 @@ namespace VE2.NonCore.Platform.API
         // public Dictionary<string, WorldDetails> ActiveWorlds { get; }
 
         public List<(string, int)> ActiveWorldsNamesAndVersions { get; }
-        public void RequestInstanceAllocation(string worldFolderName, string instanceSuffix, string versionNumber);
+        public void RequestInstanceAllocation(InstanceCode instanceCode);
         public void ReturnToHub();
 
         public ServerConnectionSettings GetInstanceServerSettingsForWorld(string worldName);

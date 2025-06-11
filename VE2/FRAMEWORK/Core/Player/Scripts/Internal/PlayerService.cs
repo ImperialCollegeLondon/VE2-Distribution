@@ -13,7 +13,7 @@ namespace VE2.Core.Player.Internal
     internal static class VE2PlayerServiceFactory
     {
         internal static PlayerService Create(PlayerTransformData state, PlayerConfig config, IPlayerPersistentDataHandler playerPersistentDataHandler, 
-            IXRManagerWrapper xrManagerWrapper, IPrimaryUIServiceInternal primaryUIService, ISecondaryUIServiceInternal secondaryUIService)
+            IXRManagerWrapper xrManagerWrapper, IPrimaryUIServiceInternal primaryUIService, ISecondaryUIServiceInternal secondaryUIService, IXRHapticsWrapper xRHapticsWrapperLeft, IXRHapticsWrapper xRHapticsWrapperRight)
         {
             return new PlayerService(state, config, 
                 VE2API.InteractorContainer,
@@ -26,7 +26,9 @@ namespace VE2.Core.Player.Internal
                 new CollisionDetectorFactory(),
                 xrManagerWrapper,
                 primaryUIService,
-                secondaryUIService); //TODO: reorder these?
+                secondaryUIService,
+                xRHapticsWrapperLeft,
+                xRHapticsWrapperRight); //TODO: reorder these?
         }
     }
 
@@ -111,23 +113,25 @@ namespace VE2.Core.Player.Internal
             OnOverridableAvatarAppearanceChanged?.Invoke(OverridableAvatarAppearance);
         }
 
-        public Vector3 PlayerPosition
+        public Vector3 PlayerPosition => PlayerTransformData.IsVRMode ? _playerVR.PlayerPosition : _player2D.PlayerPosition;
+
+        public void SetPlayerPosition(Vector3 position)
         {
-            get
-            {
-                if (PlayerTransformData.IsVRMode)
-                    return _playerVR.GetPlayerPosition();
-                else
-                    return _player2D.GetPlayerPosition();
-            }
-            set
-            {
-                if (PlayerTransformData.IsVRMode)
-                    _playerVR.SetPlayerPosition(value);
-                else
-                    _player2D.SetPlayerPosition(value);
-            }
+            if (PlayerTransformData.IsVRMode)
+                _playerVR.SetPlayerPosition(position);
+            else
+                _player2D.SetPlayerPosition(position);
         }
+
+        public Quaternion PlayerRotation => PlayerTransformData.IsVRMode ? _playerVR.PlayerRotation : _player2D.PlayerRotation;
+        public void SetPlayerRotation(Quaternion rotation)
+        {
+            if (PlayerTransformData.IsVRMode)
+                _playerVR.SetPlayerRotation(rotation);
+            else
+                _player2D.SetPlayerRotation(rotation);
+        }
+        
         public AndroidJavaObject AddArgsToIntent(AndroidJavaObject intent) => _playerSettingsHandler.AddArgsToIntent(intent);
 
         public void AddPanelTo2DOverlayUI(RectTransform rect) => _player2D.MoveRectToOverlayUI(rect);
@@ -147,7 +151,7 @@ namespace VE2.Core.Player.Internal
         internal PlayerService(PlayerTransformData transformData, PlayerConfig config, HandInteractorContainer interactorContainer, IPlayerPersistentDataHandler playerSettingsHandler, 
             ILocalClientIDWrapper localClientIDWrapper, ILocalPlayerSyncableContainer playerSyncContainer, IGrabInteractablesContainer grabInteractablesContainer, 
             PlayerInputContainer playerInputContainer, IRaycastProvider raycastProvider, ICollisionDetectorFactory collisionDetectorFactory, IXRManagerWrapper xrManagerWrapper, 
-            IPrimaryUIServiceInternal primaryUIService, ISecondaryUIServiceInternal secondaryUIService)
+            IPrimaryUIServiceInternal primaryUIService, ISecondaryUIServiceInternal secondaryUIService, IXRHapticsWrapper xRHapticsWrapperLeft, IXRHapticsWrapper xRHapticsWrapperRight)
         {
             PlayerTransformData = transformData;
             _config = config;
@@ -165,7 +169,7 @@ namespace VE2.Core.Player.Internal
                 _playerVR = new PlayerControllerVR(
                     interactorContainer, grabInteractablesContainer, _playerInputContainer.PlayerVRInputContainer,
                     playerSettingsHandler, new PlayerVRControlConfig(), _config.PlayerInteractionConfig, _config.MovementModeConfig, _config.CameraConfig,
-                    raycastProvider, collisionDetectorFactory, xrManagerWrapper, localClientIDWrapper, primaryUIService, secondaryUIService);
+                    raycastProvider, collisionDetectorFactory, xrManagerWrapper, localClientIDWrapper, primaryUIService, secondaryUIService, xRHapticsWrapperLeft, xRHapticsWrapperRight);
             }
 
             if (_config.PlayerModeConfig.Enable2D)

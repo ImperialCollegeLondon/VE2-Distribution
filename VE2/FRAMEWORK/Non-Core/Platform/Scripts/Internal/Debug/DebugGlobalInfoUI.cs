@@ -3,6 +3,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using VE2.NonCore.Platform.API;
+using static VE2.NonCore.Platform.API.PlatformPublicSerializables;
 using static VE2.NonCore.Platform.Internal.PlatformSerializables;
 
 namespace VE2.NonCore.Platform.Internal
@@ -48,7 +49,7 @@ namespace VE2.NonCore.Platform.Internal
 
             foreach (PlatformInstanceInfo platformInstanceInfo in globalInfo.InstanceInfos.Values)
             {
-                globalInfoString += $"{platformInstanceInfo.FullInstanceCode}_____";
+                globalInfoString += $"{platformInstanceInfo.InstanceCode.ToString()}_____";
                 foreach (PlatformClientInfo clientInfo in platformInstanceInfo.ClientInfos.Values)
                 {
                     if (clientInfo.ClientID.Equals(_platformIntegration.LocalClientID))

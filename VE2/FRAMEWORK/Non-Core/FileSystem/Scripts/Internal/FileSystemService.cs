@@ -67,6 +67,8 @@ namespace VE2.NonCore.FileSystem.Internal
                 Console.WriteLine($"An I/O error occurred: {ex.Message}");
             }
 
+            //Debug.LogWarning($"Found {localFiles.Count} local files at {localAbsolutePath}");
+
             return localFiles;
         }
 
@@ -75,6 +77,8 @@ namespace VE2.NonCore.FileSystem.Internal
             List<string> localFolders = new();
             string correctedPath = path.StartsWith("/") ? path.Substring(1) : path;
             string localPath = $"{LocalWorkingPath}/{correctedPath}";
+
+            //Debug.Log("Get local folders at " + localPath);
 
             if (string.IsNullOrWhiteSpace(localPath))
                 throw new ArgumentException("Path cannot be null or empty.", nameof(localPath));
@@ -88,9 +92,16 @@ namespace VE2.NonCore.FileSystem.Internal
                 string[] folders = Directory.GetDirectories(localPath, "*", SearchOption.TopDirectoryOnly);
                 foreach (string folder in folders)
                 {
-                    string correctedFolderFullName = folder.Replace("\\", "/"); //System.IO gives us paths with back slashes
-                    string workingFolderNameAndPath = correctedFolderFullName.Replace($"{LocalWorkingPath}/", "").TrimStart('/');
-                    localFolders.Add(workingFolderNameAndPath);
+                    DirectoryInfo dirInfo = new(folder);
+                    string folderName = dirInfo.Name;
+
+                    if (string.IsNullOrWhiteSpace(folderName))
+                    {
+                        Debug.LogWarning("Found a folder with no name, skipping it.");
+                        continue; // Skip folders with no name
+                    }
+                    
+                    localFolders.Add(folderName);
                 }
             }
             catch (UnauthorizedAccessException ex)
@@ -102,6 +113,7 @@ namespace VE2.NonCore.FileSystem.Internal
                 Console.WriteLine($"An I/O error occurred: {ex.Message}");
             }
 
+            //Debug.LogWarning($"Found {localFolders.Count} local folders at {localPath}");
             return localFolders;
         }
 
