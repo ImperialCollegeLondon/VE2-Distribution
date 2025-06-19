@@ -46,7 +46,7 @@ namespace VE2.Core.Player.Internal
 
     internal abstract class PointerInteractor : IInteractor
     {
-        public Transform GrabberTransform => _GrabberTransform;
+        public ITransformWrapper GrabberTransformWrapper { get; }
         public IReadOnlyList<string> HeldNetworkedActivatableIDs => _heldActivatableIDsAgainstNetworkFlags.Where(kvp => kvp.Value).Select(kvp => kvp.Key).ToList();
 
         protected bool IsCurrentlyGrabbing => _CurrentGrabbingGrabbable != null;
@@ -56,6 +56,8 @@ namespace VE2.Core.Player.Internal
         protected const float MAX_SPHERECAST_RADIUS = 10;
         protected IRangedInteractionModule _CurrentHoveringInteractable;
         protected IRangedClickInteractionModule _CurrentHoveringClickInteractable => _CurrentHoveringInteractable as IRangedClickInteractionModule;
+
+
         protected IRangedGrabInteractionModule _CurrentGrabbingGrabbable;
 
 
@@ -79,6 +81,7 @@ namespace VE2.Core.Player.Internal
         private readonly InteractorType _InteractorType;
         private readonly IRaycastProvider _RaycastProvider;
         protected readonly ILocalClientIDWrapper _LocalClientIDWrapper;
+        protected readonly ILocalAdminIndicator _localAdminIndicator;
 
         protected const float LOW_HAPTICS_AMPLITUDE = 0.2f;
         protected const float HIGH_HAPTICS_AMPLITUDE = 0.5f;
@@ -89,9 +92,10 @@ namespace VE2.Core.Player.Internal
         internal readonly FreeGrabbableWrapper GrabbableWrapper;
         private readonly HoveringOverScrollableIndicator _hoveringOverScrollableIndicator;
 
+        //TODO - should probably be injecting transform wrappers here rather than raw transforms
         internal PointerInteractor(HandInteractorContainer interactorContainer, IGrabInteractablesContainer grabInteractablesContainer, InteractorInputContainer interactorInputContainer, PlayerInteractionConfig interactionConfig,
-            InteractorReferences interactorReferences, InteractorType interactorType, IRaycastProvider raycastProvider, 
-            ILocalClientIDWrapper localClientIDWrapper, FreeGrabbableWrapper grabbableWrapper, HoveringOverScrollableIndicator hoveringOverScrollableIndicator)
+            InteractorReferences interactorReferences, InteractorType interactorType, IRaycastProvider raycastProvider,
+            ILocalClientIDWrapper localClientIDWrapper, ILocalAdminIndicator localAdminIndicator, FreeGrabbableWrapper grabbableWrapper, HoveringOverScrollableIndicator hoveringOverScrollableIndicator)
         {
             _interactorContainer = interactorContainer;
             _grabInteractablesContainer = grabInteractablesContainer;
@@ -100,6 +104,7 @@ namespace VE2.Core.Player.Internal
 
             _interactorParentTransform = interactorReferences.InteractorParentTransform;
             _GrabberTransform = interactorReferences.GrabberTransform;
+            GrabberTransformWrapper = new TransformWrapper(_GrabberTransform);
             _GrabberVisualisation = interactorReferences.GrabberVisualisation;
             _GrabberVisualisationRayOrigin = interactorReferences.GrabberVisualisationRayOrigin;
             _grabbableLineVisLineRenderer = _GrabberVisualisation.GetComponent<LineRenderer>();
@@ -110,6 +115,7 @@ namespace VE2.Core.Player.Internal
             _RaycastProvider = raycastProvider;
 
             _LocalClientIDWrapper = localClientIDWrapper;
+            _localAdminIndicator = localAdminIndicator;
 
             GrabbableWrapper = grabbableWrapper;
 
@@ -150,6 +156,12 @@ namespace VE2.Core.Player.Internal
             _interactorContainer?.DeregisterInteractor(_InteractorID.ToString());
         }
 
+        // Only allow interactable if not admin only, or if local player is admin
+        protected bool IsInteractableAllowed(IGeneralInteractionModule interactable)
+        {
+            return interactable != null && (!interactable.AdminOnly || _localAdminIndicator.IsLocalAdmin);
+        }
+
         protected abstract void Vibrate(float amplitude, float duration);
 
         protected virtual void HandleLocalClientIDReady(ushort clientID)
@@ -168,7 +180,7 @@ namespace VE2.Core.Player.Internal
             //Update the current hovering interactable, as long as we're not waiting for id, and it's not a grabbable that we were previously hovering over
             if (_LocalClientIDWrapper.IsClientIDReady && !(previousHoveringInteractable is IRangedGrabInteractionModule previousRangedGrabInteractable && _CurrentGrabbingGrabbable == previousRangedGrabInteractable))
             {
-                if(raycastResultWrapper.HitInteractable && raycastResultWrapper.RangedInteractableIsInRange)
+                if (raycastResultWrapper.HitInteractable && raycastResultWrapper.RangedInteractableIsInRange && IsInteractableAllowed(raycastResultWrapper.RangedInteractableInRange))
                     _CurrentHoveringInteractable = raycastResultWrapper.RangedInteractableInRange;
                 else if(this is InteractorVR && !raycastResultWrapper.HitInteractable && sphereCastResultWrapper != null && sphereCastResultWrapper.HitInteractable && sphereCastResultWrapper.RangedInteractableIsInRange)
                     _CurrentHoveringInteractable = sphereCastResultWrapper.RangedInteractableInRange;
@@ -374,7 +386,7 @@ namespace VE2.Core.Player.Internal
             RaycastResultWrapper raycastResultWrapper = GetRayCastResult();
 
             if (raycastResultWrapper.HitInteractable && raycastResultWrapper.RangedInteractableIsInRange &&
-                raycastResultWrapper.RangedInteractable is IRangedClickInteractionModule rangedClickInteractable)
+                raycastResultWrapper.RangedInteractable is IRangedClickInteractionModule rangedClickInteractable && IsInteractableAllowed(rangedClickInteractable))
             {
                 //TODO - Code smell? This is a bit of a hack to get around the fact that we don't have a way to check if we're in VR or not
                 if (this is InteractorVR && !rangedClickInteractable.ActivateAtRangeInVR)
@@ -399,7 +411,7 @@ namespace VE2.Core.Player.Internal
             if (!_LocalClientIDWrapper.IsClientIDReady || IsCurrentlyGrabbing)
                 return;
 
-            if (_CurrentHoveringClickInteractable != null && _CurrentHoveringClickInteractable is IRangedHoldClickInteractionModule _CurrentHoveringHoldClickInteractable)
+            if (_CurrentHoveringClickInteractable != null && _CurrentHoveringClickInteractable is IRangedHoldClickInteractionModule _CurrentHoveringHoldClickInteractable ) //WHAT HAPPENS WHEN YOU'RE MID HOVERING AND ADMIN ONLY COMES ON??
             {
                 _CurrentHoveringHoldClickInteractable.ClickUp(_InteractorID);
                 _heldActivatableIDsAgainstNetworkFlags.Remove(_CurrentHoveringHoldClickInteractable.ID);
@@ -424,7 +436,7 @@ namespace VE2.Core.Player.Internal
                 {
                     if (raycastResultWrapper != null && raycastResultWrapper.HitInteractable && raycastResultWrapper.RangedInteractableIsInRange)
                     {
-                        if (!raycastResultWrapper.RangedInteractable.AdminOnly)
+                        if (IsInteractableAllowed(raycastResultWrapper.RangedInteractable))
                         {
                             if (raycastResultWrapper.RangedInteractable is IRangedGrabInteractionModule rangedGrabInteractable)
                             {
@@ -446,7 +458,7 @@ namespace VE2.Core.Player.Internal
 
                         if (sphereCastResultWrapper != null && sphereCastResultWrapper.HitInteractable && sphereCastResultWrapper.RangedInteractableIsInRange)
                         {
-                            if (!sphereCastResultWrapper.RangedInteractable.AdminOnly)
+                            if (IsInteractableAllowed(sphereCastResultWrapper.RangedInteractable))
                             {
                                 if (sphereCastResultWrapper.RangedInteractable is IRangedGrabInteractionModule rangedGrabInteractable)
                                 {
@@ -561,7 +573,7 @@ namespace VE2.Core.Player.Internal
 
                 if (_LocalClientIDWrapper.IsClientIDReady && raycastResultWrapper != null && raycastResultWrapper.HitInteractable && raycastResultWrapper.RangedInteractableIsInRange)
                 {
-                    if (!raycastResultWrapper.RangedInteractable.AdminOnly)
+                    if (IsInteractableAllowed(raycastResultWrapper.RangedInteractable))
                     {
                         //if while scrolling up, raycast returns an adjustable module
                         if (raycastResultWrapper.RangedInteractable is IRangedAdjustableInteractionModule rangedAdjustableInteraction)
@@ -594,7 +606,7 @@ namespace VE2.Core.Player.Internal
 
                 if (_LocalClientIDWrapper.IsClientIDReady && raycastResultWrapper != null && raycastResultWrapper.HitInteractable && raycastResultWrapper.RangedInteractableIsInRange)
                 {
-                    if (!raycastResultWrapper.RangedInteractable.AdminOnly)
+                    if (IsInteractableAllowed(raycastResultWrapper.RangedInteractable))
                     {
                         //if while scrolling up, raycast returns an adjustable module
                         if (raycastResultWrapper.RangedInteractable is IRangedAdjustableInteractionModule rangedAdjustableInteraction)
