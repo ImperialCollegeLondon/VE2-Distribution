@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 23840098}
   - component: {fileID: 23840097}
   m_Layer: 8
-  m_Name: PushButtonGroup1
+  m_Name: PushButtonGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5683,7 +5683,7 @@ GameObject:
   - component: {fileID: 539028771}
   - component: {fileID: 539028770}
   m_Layer: 8
-  m_Name: PushButtonGroup3
+  m_Name: PushButtonGroup5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8305,7 +8305,7 @@ GameObject:
   - component: {fileID: 756509176}
   - component: {fileID: 756509175}
   m_Layer: 8
-  m_Name: PushButtonToggle
+  m_Name: PushButtonToggle2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12621,7 +12621,7 @@ GameObject:
   - component: {fileID: 1064730502}
   - component: {fileID: 1064730501}
   m_Layer: 8
-  m_Name: PushButtonGroup2
+  m_Name: PushButtonGroup4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13386,7 +13386,7 @@ GameObject:
   - component: {fileID: 1087453621}
   - component: {fileID: 1087453624}
   m_Layer: 0
-  m_Name: GrabbableBall
+  m_Name: GrabbableBall2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19566,12 +19566,32 @@ MonoBehaviour:
   _connectOnStart: 1
   _connectionStateDebug:
     ConnectionState: 0
-  _debugServerSettings:
-    IpAddress: 127.0.0.1
-    Port: 4297
-    InstanceNumber: 00
-  _config:
-    _artificialAddedPingMs: 0
+  _instancingConfig:
+    InstanceServiceConfig:
+      OnConnectedToInstance:
+        m_PersistentCalls:
+          m_Calls: []
+      OnDisconnectedFromInstance:
+        m_PersistentCalls:
+          m_Calls: []
+      OnRemoteClientJoinedInstance:
+        m_PersistentCalls:
+          m_Calls: []
+      OnRemoteClientLeftInstance:
+        m_PersistentCalls:
+          m_Calls: []
+      OnBecomeHost:
+        m_PersistentCalls:
+          m_Calls: []
+      OnBecomeNonHost:
+        m_PersistentCalls:
+          m_Calls: []
+    DebugInstancingSettings:
+      IpAddress: 127.0.0.1
+      Port: 4297
+      InstanceNumber: 00
+      ArtificialLatencySettings:
+        ArtificialAddedPing: 0
 --- !u!1 &1843885953
 GameObject:
   m_ObjectHideFlags: 0
@@ -22256,7 +22276,7 @@ GameObject:
   - component: {fileID: 2103749187}
   - component: {fileID: 2103749189}
   m_Layer: 0
-  m_Name: Torch
+  m_Name: Torch2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22995,7 +23015,7 @@ GameObject:
   - component: {fileID: 2137345505}
   - component: {fileID: 2137345504}
   m_Layer: 8
-  m_Name: PushButtonHold
+  m_Name: PushButtonHold2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23496,6 +23516,8 @@ MonoBehaviour:
       ShowTooltipsAndHighlight: 1
     SyncConfig:
       IsNetworked: 1
+      TransmissionFrequency: 1
+      TransmissionType: 0
   _collider: {fileID: 2137345507}
 --- !u!1 &2144054240
 GameObject:
@@ -24127,7 +24149,7 @@ GameObject:
   - component: {fileID: 7336850990320701903}
   - component: {fileID: 7336850990320701904}
   m_Layer: 0
-  m_Name: ZapperMain
+  m_Name: ZapperMain2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24150,7 +24172,7 @@ GameObject:
   - component: {fileID: 919132147501691433}
   - component: {fileID: 919132147501691429}
   m_Layer: 3
-  m_Name: PressurePlate
+  m_Name: PressurePlate2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24305,6 +24327,8 @@ MonoBehaviour:
       ShowTooltipsAndHighlight: 1
     SyncConfig:
       IsNetworked: 1
+      TransmissionFrequency: 1
+      TransmissionType: 0
 --- !u!82 &919132147501691428
 AudioSource:
   m_ObjectHideFlags: 0
@@ -24618,7 +24642,7 @@ GameObject:
   - component: {fileID: 3469287837677006580}
   - component: {fileID: 3469287837677006582}
   m_Layer: 0
-  m_Name: GrabbableCubeNoPhysics
+  m_Name: GrabbableCubeNoPhysics2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25001,7 +25025,7 @@ GameObject:
   - component: {fileID: 7592650986049095954}
   - component: {fileID: 8619266047873859478}
   m_Layer: 0
-  m_Name: AdjustableWheel
+  m_Name: AdjustableWheel2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25041,7 +25065,7 @@ GameObject:
   - component: {fileID: 7006551141978014410}
   - component: {fileID: 8221597010561592607}
   m_Layer: 0
-  m_Name: AdjustableSlider
+  m_Name: AdjustableSlider2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25621,9 +25645,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 1
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!65 &3469287837677006577
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25730,9 +25754,9 @@ MonoBehaviour:
       VRRaySnapRangeBackOfHand: 0.1
       VRFailsafeGrab: 1
       FailsafeGrabMultiplier: 1.2
-      DropBehaviour: 0
-      AlignOrientationOnGrab: 0
-      PreserveInspectModeOrientation: 0
+      DropBehaviour: 2
+      AlignOrientationOnGrab: 1
+      PreserveInspectModeOrientation: 1
       OnLocalInspectModeEnter:
         m_PersistentCalls:
           m_Calls: []
@@ -26664,7 +26688,7 @@ GameObject:
   - component: {fileID: 63074154125022765}
   - component: {fileID: 5984609038634789832}
   m_Layer: 0
-  m_Name: GrabbableCubePhysics
+  m_Name: GrabbableCubePhysics2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26878,7 +26902,7 @@ GameObject:
   - component: {fileID: 4505097480685781333}
   - component: {fileID: 9031356289206998812}
   m_Layer: 0
-  m_Name: AdjustableLever
+  m_Name: AdjustableLever2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27468,6 +27492,21 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1784217489764967367, guid: eda77063036d8ac49b7bee439fefdb3f,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1784217489764967367, guid: eda77063036d8ac49b7bee439fefdb3f,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1784217489764967367, guid: eda77063036d8ac49b7bee439fefdb3f,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2929859370777675346, guid: eda77063036d8ac49b7bee439fefdb3f,
         type: 3}
       propertyPath: m_Range
@@ -27477,6 +27516,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3294303023030046174, guid: eda77063036d8ac49b7bee439fefdb3f,
+        type: 3}
+      propertyPath: m_Name
+      value: CustomInfoPoint_Trigger33
       objectReference: {fileID: 0}
     - target: {fileID: 4470036312814534812, guid: eda77063036d8ac49b7bee439fefdb3f,
         type: 3}
@@ -27669,10 +27713,34 @@ MonoBehaviour:
       InteractionRange: 50
       OnLocalHoverEnter:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 7006551141978014410}
+            m_TargetAssemblyTypeName: VE2.Common.Shared.V_LightTweener, VE2.Common.Shared
+            m_MethodName: GoToMax
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       OnLocalHoverExit:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 7006551141978014410}
+            m_TargetAssemblyTypeName: VE2.Common.Shared.V_LightTweener, VE2.Common.Shared
+            m_MethodName: GoToMin
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       _attachPoint: {fileID: 7630708130437203443}
       VRRaySnap: 1
       VRRaySnapRangeFrontOfHand: 0.15
@@ -27834,10 +27902,34 @@ MonoBehaviour:
       InteractionRange: 50
       OnLocalHoverEnter:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 4463280335519051189}
+            m_TargetAssemblyTypeName: VE2.Common.Shared.V_LightTweener, VE2.Common.Shared
+            m_MethodName: GoToMax
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       OnLocalHoverExit:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 4463280335519051189}
+            m_TargetAssemblyTypeName: VE2.Common.Shared.V_LightTweener, VE2.Common.Shared
+            m_MethodName: GoToMin
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       _attachPoint: {fileID: 2942569303062809500}
       VRRaySnap: 1
       VRRaySnapRangeFrontOfHand: 0.15
@@ -28217,10 +28309,34 @@ MonoBehaviour:
       InteractionRange: 50
       OnLocalHoverEnter:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 4505097480685781333}
+            m_TargetAssemblyTypeName: VE2.Common.Shared.V_LightTweener, VE2.Common.Shared
+            m_MethodName: GoToMax
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       OnLocalHoverExit:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 4505097480685781333}
+            m_TargetAssemblyTypeName: VE2.Common.Shared.V_LightTweener, VE2.Common.Shared
+            m_MethodName: GoToMin
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       _attachPoint: {fileID: 312694930724920086}
       VRRaySnap: 1
       VRRaySnapRangeFrontOfHand: 0.15
