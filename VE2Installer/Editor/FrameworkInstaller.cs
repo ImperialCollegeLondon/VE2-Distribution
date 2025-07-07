@@ -113,7 +113,7 @@ public class FrameworkInstaller : EditorWindow
         listRequest = Client.List(true, true);
         EditorApplication.update += UpdateInstalledPackages;
 
-        ve2InstallLocation = (VE2InstallLocation)EditorPrefs.GetInt(UseRemoteVE2Key, (int)VE2InstallLocation.Remote);
+        ve2InstallLocation = VE2InstallLocation.Remote;
 
         // load last‐used VE2 path
         ve2Path = EditorPrefs.GetString(VE2PathKey, "");
