@@ -10,7 +10,7 @@ The VE2 tools, the installer, and this setup guide are all in Alpha, and are a w
 ## Installation Guide
 
 1. **Create a Unity Project**  
-   - Set up a new **URP** (Universal Render Pipeline) Unity project on **Unity version 6.0.44**.
+   - Set up a new **URP** (Universal Render Pipeline) Unity project on **Unity version 6.0.51**.
 
 2. **Install VE2 Package**  
    - Open the **Package Manager**.
