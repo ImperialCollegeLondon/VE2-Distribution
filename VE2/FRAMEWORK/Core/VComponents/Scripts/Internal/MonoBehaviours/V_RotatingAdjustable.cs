@@ -41,7 +41,8 @@ namespace VE2.Core.VComponents.Internal
             MaximumOutputValue = max;
         }
         
-        public IClientIDWrapper MostRecentInteractingClientID => _GrabbableStateModule.MostRecentInteractingClientID;
+        public IClientIDWrapper MostRecentGrabbingClientID => _GrabbableStateModule.MostRecentInteractingClientID;
+        public IClientIDWrapper MostRecentAdjustingClientID => _AdjustableStateModule.MostRecentInteractingClientID;
         #endregion
 
         #region Ranged Interaction Module Interface
@@ -61,8 +62,9 @@ namespace VE2.Core.VComponents.Internal
     internal partial class V_RotatingAdjustable : MonoBehaviour, IRangedGrabInteractionModuleProvider
     {
         [SerializeField, IgnoreParent] private RotatingAdjustableConfig _config = new();
-        [SerializeField, HideInInspector] private AdjustableState _adjustableState = null;
+        [SerializeField, HideInInspector] private AdjustableState _adjustableState = new();
         [SerializeField, HideInInspector] private GrabbableState _freeGrabbableState = new();
+        
 
         #region Player Interfaces
         IRangedInteractionModule IRangedInteractionModuleProvider.RangedInteractionModule => _Service.RangedAdjustableInteractionModule;
@@ -121,9 +123,6 @@ namespace VE2.Core.VComponents.Internal
                 Debug.LogWarning($"The adjustable on {gameObject.name} does not have an assigned AttachPoint, and so may not behave as intended");
             }
 
-            if (_adjustableState == null)
-                _adjustableState = new AdjustableState(_config.AdjustableStateConfig.StartingOutputValue);
-
             List<IHandheldInteractionModule> handheldInteractions = new();
 
             //TODO: THINK ABOUT THIS
@@ -144,10 +143,8 @@ namespace VE2.Core.VComponents.Internal
                 VE2API.LocalClientIdWrapper);
         }
 
-        private void FixedUpdate()
-        {
-            _service.HandleFixedUpdate();
-        }
+        private void Start() => _service.HandleStart();
+        private void FixedUpdate() => _service.HandleFixedUpdate();
 
         private void OnDisable()
         {

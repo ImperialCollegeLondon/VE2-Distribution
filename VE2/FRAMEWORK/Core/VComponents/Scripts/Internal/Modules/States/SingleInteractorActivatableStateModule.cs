@@ -94,6 +94,13 @@ namespace VE2.Core.VComponents.Internal
             toggleActivatableStateConfig.InspectorDebug.OnDebugUpdateStatePressed += (bool newState) => SetActivated(newState);
         }
 
+        //Can't be called in the constructor, as this will emit events, that may trigger the plugin to access the state module before it is fully initialized.
+        public void InitializeStateWithStartingValue()
+        {
+            if (_toggleActivatableStateConfig.ActivateOnStart)
+                UpdateActivationState(ushort.MaxValue, true);
+        }
+
         public void SetNewState(ushort clientID)
         {
             // If this module belongs to an activation group, deactivate others.
@@ -180,7 +187,6 @@ namespace VE2.Core.VComponents.Internal
     [Serializable]
     internal class SingleInteractorActivatableState : VE2Serializable
     {
-        public bool IsInitialised = false;
         public ushort StateChangeNumber { get; set; }
         public bool IsActivated { get; set; }
         public ushort MostRecentInteractingClientID { get; set; }

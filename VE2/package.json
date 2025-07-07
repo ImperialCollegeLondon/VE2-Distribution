@@ -1,6 +1,6 @@
 {
   "name": "com.ic.ve2",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "displayName": "VE2",
   "description": "All you need to create a VE2 world and export to the VE2 platform",
   "unity": "2023.3",
@@ -9,7 +9,8 @@
     "com.github-glitchenzo.nugetforunity": "4.3.0",
     "net.tnrd.nsubstitute": "5.1.0",
     "com.unity.xr.management": "4.5.0",
-    "com.unity.xr.meta-openxr": "2.0.1"
+    "com.unity.xr.meta-openxr": "2.0.1",
+    "com.unity.visualeffectgraph": "14.0.0"
   },
   "repository": {
     "type": "git",
