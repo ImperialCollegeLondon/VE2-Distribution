@@ -27,30 +27,16 @@ The VE2 tools, the installer, and this setup guide are all in Alpha, and are a w
 5. **Install Samples**
    - Optional: Go to the package manager, find VE2, and install samples - this will give you the VE2 sample scene. You can also use this window to update the VE2 package. 
 
-6. **Configure XR Settings**  
-   - Open **Unity’s Project Settings**.
-   - Go to **XR Plug-In Management** and ensure **OpenXR** is enabled.
+6. **VE2 Setup Wizard**  
+   - Look in unity's top menu bar, navigate to **VE2 > VE2 Quick Setup**
+   - Leave all boxes ticked, and select **Setup VE2**
 
-7. **Set Up XR Plugin**  
-   - Navigate to **XR Plug-In Management > OpenXR**.
-   - Under **Enabled Interaction Profiles**, add **Oculus Touch Interaction Profile**.
-
-8. **Set Up Your Scene**  
-   - Create a new scene in Unity.
-   - Go to **VE2 > Setup Scene**.
-
-9. **Start Local Server**  
-   - In the top-right corner, click on **VE2: Start Local Server**.
-
-10. **Play the Scene**  
+7. **Play the Scene**  
    - Enter **Play Mode** and begin interacting with VE2!
 
 ---
 
 ## Known Issues
-
-- **Graphics:**
-  URP settings don't seem to carry across correctly when installing VE2, so the rendering and lighting may be a little jank
 
 - **Grabbables:**  
    If you join a session where a grabbable object has already been grabbed and dropped, and then pick it up and drop it again, the grab/drop action is overridden.
@@ -72,9 +58,6 @@ The VE2 tools, the installer, and this setup guide are all in Alpha, and are a w
 - **Local Server:**
    Expect to see some warnings about the DarkRift server logs not being as expected, differing number of bytes etc
 
-- **DoTween Modules:**  
-   Errors related to DoTween modules may appear, but the functionality is unaffected.
-
 - **VComponents Inspectors:**  
    Inspectors for VComponents may spam the console with “invalid layout data” warnings. These can be ignored, though they can be a nuisance.
 
@@ -89,14 +72,9 @@ The VE2 tools, the installer, and this setup guide are all in Alpha, and are a w
 ---
 
 ## Features Not Yet Implemented
-
-- **Infopoints**  
-- **Reset VR Neutral Position**  
-- **Inspector Configurations** for various VComponents  
 - **Instancing Configuration** (max number of players, etc.)  
 - **Voice Chat Configuration**  
 - **World Build System** (still placeholder)  
-- **Auto Configuration** for XR packages, interaction profiles, etc.  
 - **Build Features** that won’t affect plugin developers
 
 ---
