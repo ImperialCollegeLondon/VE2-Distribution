@@ -1,3 +1,5 @@
+##FOR INTERNAL IMPERIAL-COLLEGE USE ONLY, DO NOT COPY WITHOUT EXPRESS PERMISSION
+
 # Virtual Experience Engine Distributables
 
 Welcome to the **Virtual Experience Engine (VE2)** Tooling Guide!  
