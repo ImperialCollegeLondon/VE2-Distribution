@@ -39,6 +39,7 @@ namespace VE2.Core.VComponents.Internal
     }
 
     [ExecuteAlways]
+    [DisallowMultipleComponent]
     internal partial class V_ToggleActivatable : MonoBehaviour, IRangedInteractionModuleProvider, ICollideInteractionModuleProvider
     {
         internal ToggleActivatableConfig Config { get => _config; set { _config = value; } }
@@ -50,14 +51,15 @@ namespace VE2.Core.VComponents.Internal
         [SerializeField, HideInInspector] private SingleInteractorActivatableState _state = new();
 
         #region Player Interfaces
+        int ICollideInteractionModuleProvider.Layer => gameObject.layer;
         ICollideInteractionModule ICollideInteractionModuleProvider.CollideInteractionModule => _Service.ColliderInteractionModule;
         IRangedInteractionModule IRangedInteractionModuleProvider.RangedInteractionModule => _Service.RangedClickInteractionModule;
         #endregion
 
         #region Inspector Utils
-        internal Collider Collider 
+        internal Collider Collider
         {
-            get 
+            get
             {
                 if (_collider == null)
                     _collider = GetComponent<Collider>();
@@ -66,7 +68,7 @@ namespace VE2.Core.VComponents.Internal
         }
         [SerializeField, HideInInspector] private Collider _collider = null;
         #endregion
-        
+
         private ToggleActivatableService _service = null;
         private ToggleActivatableService _Service
         {
@@ -77,6 +79,7 @@ namespace VE2.Core.VComponents.Internal
                 return _service;
             }
         }
+
 
         private void Awake()
         {

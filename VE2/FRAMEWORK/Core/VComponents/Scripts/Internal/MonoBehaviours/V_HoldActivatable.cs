@@ -34,12 +34,14 @@ namespace VE2.Core.VComponents.Internal
         #endregion
     }
 
+    [DisallowMultipleComponent]
     internal partial class V_HoldActivatable : MonoBehaviour, IRangedInteractionModuleProvider, ICollideInteractionModuleProvider
     {
         [SerializeField, IgnoreParent] private HoldActivatableConfig _config = new();
         [SerializeField, HideInInspector] private MultiInteractorActivatableSyncedState _state = new();
 
         #region Player Interfaces
+        int ICollideInteractionModuleProvider.Layer => gameObject.layer;
         ICollideInteractionModule ICollideInteractionModuleProvider.CollideInteractionModule => _Service.ColliderInteractionModule;
         IRangedInteractionModule IRangedInteractionModuleProvider.RangedInteractionModule => _Service.RangedClickInteractionModule;
         #endregion
